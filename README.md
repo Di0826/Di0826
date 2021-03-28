@@ -6,7 +6,5 @@
 * Di Li       / u7039884
 
 **Topic**
-Movie Recommendation
-Implement a proof-of-concept system for movie recommendation
-on the MovieLens-100K dataset using two different methods and
-compare their performances.
+* Movie Recommendation Implement a proof-of-concept system for movie recommendation
+on the MovieLens-100K dataset using two different methods and compare their performances.
