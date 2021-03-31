@@ -11,4 +11,5 @@ on the MovieLens-100K dataset using two different methods and compare their perf
 
 **Useful Link**
 
-1. proposal editor: https://docs.google.com/document/d/1YF-LDtBbpNGvLxNPKidinfN4GiT5beKBgm28k7tcqHY/edit?usp=sharing
+1. Proposal editor: https://docs.google.com/document/d/1YF-LDtBbpNGvLxNPKidinfN4GiT5beKBgm28k7tcqHY/edit?usp=sharing
+2. Neural Collaborative Filtering : https://github.com/hexiangnan/neural_collaborative_filtering
