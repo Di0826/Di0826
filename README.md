@@ -14,3 +14,19 @@ on the MovieLens-100K dataset using two different methods and compare their perf
 1. Proposal editor: https://docs.google.com/document/d/1YF-LDtBbpNGvLxNPKidinfN4GiT5beKBgm28k7tcqHY/edit?usp=sharing
 2. Neural Collaborative Filtering : https://github.com/hexiangnan/neural_collaborative_filtering
 3. svd++ : https://github.com/lxmly/recsyspy
+
+**implement**
+this project implement a practical  movie recommendation software systemfor MovieLens-100k dataset, using collaborative filtering techniques.
+there are 2 methods： “FUNK SVD” and collaborative filtering based deep learning methods. 
+
+**files**
+* main: run this to test the Movie RecommendationSystem
+* svd_cf:implement of funk SVD 
+* neurlnet:the MLP Movie Recommendation with  collaborative filtering
+* data_reader:load the data and eaxtract the data we want 
+* visual: visualized 100 random movies, try to find the relationship 
+
+
+
+
+
