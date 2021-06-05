@@ -1,65 +1,60 @@
+import pandas as pd
 import numpy as np
 
-def svd_collaborative_filtering(train, user_data, item_data, latent_variable=8,
-                                learning_rate=0.01, maximum_epoches=25, regularization=0.005):
-    # below code is an implement of funk-svd, following the https://github.com/gbolmier/funk-svd/README.md
-    # 'Funk SVD for recommendation in a nutshell' chapter
-
-    train_matrix = np.zeros((user_data.shape[0], item_data.shape[0]))
-    # shape = num_user * num_items
-    train_matrix[train[:, 0], train[:, 1]] = train[:, 2]
-    num_user = train_matrix.shape[0]
-    num_item = train_matrix.shape[1]
-    P = np.zeros((num_user, latent_variable))
-    Q = np.zeros((latent_variable, num_item))
-    # rating is predict as r_average + user_base[user] + item_base[item] + P[user,:] @ Q[:,item]
-    # what we need to do is finding the optimal patameters
-
-    r_average = np.mean(train_matrix[train_matrix != 0])
-    user_base = np.zeros(num_user)
-    item_base = np.zeros(num_item)
-    # there are other ways to initialize user_base, item_base and P,Q
-
-    last_loss = np.inf
-    print('----------svd_collaborative_filtering start training----------')
-    for epoch in range(maximum_epoches):
-        for rating_idx in range(train.shape[0]):
-            user = int(train[rating_idx, 0])
-            item = int(train[rating_idx, 1])
-            rating = train[rating_idx, 2]
-            # predict:
-            dot_p_q = 0
-            # dot product of P[u,:] and Q[:,i],
-            for variable_idx in range(latent_variable):
-                dot_p_q += P[user, variable_idx] * Q[variable_idx, item]
-            error = rating - (r_average + user_base[user] + item_base[item] + dot_p_q)
-
-            # update :
-            user_base[user] += learning_rate * (error - regularization * user_base[user])
-            item_base[item] += learning_rate * (error - regularization * item_base[item])
-            for variable_idx in range(latent_variable):
-                P[user, variable_idx] += learning_rate * (error * Q[variable_idx, item]
-                                                          - regularization * P[user, variable_idx])
-                Q[variable_idx, item] += learning_rate * (error * P[user, variable_idx]
-                                                          - regularization * Q[variable_idx, item])
-        if (epoch + 1) % 5 == 0:
-            predict_matrix = P @ Q + r_average
-            predict_matrix = predict_matrix + user_base[:, np.newaxis] + item_base[np.newaxis, :]
-            loss = RMSE_loss(predict_matrix, train)
-            if loss < last_loss:
-                print('At epoch [%d/%d] RMSEloss: %.5f' % (epoch + 1, maximum_epoches, loss))
-                last_loss = loss
-            else:
-                print("Early stop at epoch" + str(epoch+1) + ", because the loss increased.")
-                break
-
-    predict_matrix = P @ Q + r_average
-    predict_matrix = predict_matrix + user_base[:, np.newaxis] + item_base[np.newaxis, :]
-    return predict_matrix
+def read_user():
+    user_columns = ['user id', 'age', 'gender', 'occupation', 'zip code']
+    users = pd.read_table('ml-100k\\u.user', sep='|', header=None,
+                          names=user_columns)
+    users = users.drop(['user id', 'zip code'], axis=1)
+    users = users.replace('M', 0).replace('F', 1)
+    users = users.replace('administrator', 0).replace('artist', 1)
+    users = users.replace('doctor', 2).replace('educator', 3)
+    users = users.replace('engineer', 4).replace('entertainment', 5)
+    users = users.replace('executive', 6).replace('healthcare', 7)
+    users = users.replace('homemaker', 8).replace('lawyer', 9)
+    users = users.replace('librarian', 10).replace('marketing', 11)
+    users = users.replace('none', 12).replace('other', 13)
+    users = users.replace('programmer', 14).replace('retired', 15)
+    users = users.replace('salesman', 16).replace('scientist', 17)
+    users = users.replace('student', 18).replace('technician', 19)
+    users = users.replace('writer', 20)
+    
+    
+    
+    users = np.asarray(users)
+    return users
 
 
-def RMSE_loss(predict_matrix, test):
-    predict = predict_matrix[test[:, 0], test[:, 1]]
-    MSE = np.sum(np.square(predict - test[:, 2]))/test.shape[0]
-    RMSE = np.sqrt(MSE)
-    return RMSE
+def read_item():
+    item_columns = ['movie_id', 'movie title', 'release date', 'video release date',
+                    'IMDb URL', 'unknown', 'Action', 'Adventure', 'Animation',
+                    'Children', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Fantasy',
+                    'Film-Noir', 'Horror', 'Musical', 'Mystery', 'Romance', 'Sci-Fi',
+                    'Thriller', 'War', 'Western']
+    items = pd.read_table('ml-100k\\u.item', sep='|', header=None, names=item_columns,encoding='ISO-8859-1')
+    items['day'], items['month'], items['year'] = items['release date'].str.split('-').str
+    items = items.drop(['movie_id', 'movie title', 'release date', 'video release date', 'IMDb URL'], axis=1)
+    items = items.drop(['day', 'month'], axis=1)
+    items['year'] = items.fillna('1970')
+    items['year'] = items['year'].astype('int64')
+    items = np.asarray(items)
+    return items
+
+
+def read_rating_train(train_file_num: int):
+    rating_columns = ['user_id', 'item id', 'rating', 'timestamp']
+    train = pd.read_table('ml-100k\\u' + str(train_file_num) + '.base', header=None, names=rating_columns)
+    train = np.asarray(train)
+    train[:, 0] = train[:, 0] - 1
+    train[:, 1] = train[:, 1] - 1
+    return train
+
+
+def read_rating_test(train_file_num: int):
+    rating_columns = ['user_id', 'item id', 'rating', 'timestamp']
+    test = pd.read_table('ml-100k\\u' + str(train_file_num) + '.test', header=None, names=rating_columns)
+    test = np.asarray(test)
+    test[:, 0] = test[:, 0] - 1
+    test[:, 1] = test[:, 1] - 1
+
+    return test
