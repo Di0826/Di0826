@@ -3,6 +3,24 @@ import torch
 
 
 def feature_assembler(data, user_data, item_data):
+    '''
+    
+
+    Parameters
+    ----------
+    data : np array 
+        train data.
+    user_data : np array 
+        user information data.
+    item_data : np array 
+        movie information data.
+
+    Returns
+    -------
+    feature : np array 
+        the feature matric that could used by the MLP 
+
+    '''
     num_row = data.shape[0]
     num_column = user_data.shape[1] + item_data.shape[1]
     feature = np.zeros((num_row, num_column))
@@ -14,6 +32,24 @@ def feature_assembler(data, user_data, item_data):
 
 
 def neuralnet_predictor(train, user_data, item_data):
+    """
+    
+
+    Parameters
+    ----------
+    train : np array 
+        DESCRIPTION.
+    user_data : np array 
+        DESCRIPTION.
+    item_data : np array 
+        DESCRIPTION.
+
+    Returns
+    -------
+    predict_matrix : np array 
+        the rating for each of the moview, in 984*1682 shape. each element represent the rating for a movie
+
+    """
     torch.manual_seed(1)
     np.random.seed(1)
 
@@ -22,15 +58,18 @@ def neuralnet_predictor(train, user_data, item_data):
 
     ratings = ratings.unsqueeze(1)
     input_neurons = user_data.shape[1] + item_data.shape[1]
-    hidden_neurons = 10
+    hidden_neurons = 40
     output_neurons = 1
-    learning_rate = 0.01
+    learning_rate = 0.03
     num_epoch = 100
     net = torch.nn.Sequential(
-        torch.nn.Linear(input_neurons, hidden_neurons),
+        #torch.nn.Dropout(p=0.05,inplace=False),
+        torch.nn.Linear(input_neurons, 128),
         torch.nn.Sigmoid(),
-        torch.nn.Linear(hidden_neurons, hidden_neurons),
+        #torch.nn.Dropout(p=0.051,inplace=False),
+        torch.nn.Linear(128, hidden_neurons),
         torch.nn.Sigmoid(),
+        #torch.nn.Dropout(p=0.0,inplace=False),
         torch.nn.Linear(hidden_neurons, output_neurons)
     )
     loss_func = torch.nn.MSELoss()
