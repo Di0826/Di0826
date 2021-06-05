@@ -20,11 +20,18 @@ this project implement a practical  movie recommendation software systemfor Movi
 there are 2 methods： “FUNK SVD” and collaborative filtering based deep learning methods. 
 
 **files**
-* main: run this to test the Movie RecommendationSystem
-* svd_cf:implement of funk SVD 
-* neurlnet:the MLP Movie Recommendation with  collaborative filtering
-* data_reader:load the data and eaxtract the data we want 
-* visual: visualized 100 random movies, try to find the relationship 
+* main(Yingcai Jia / Zeji Hui): run this to test the Movie RecommendationSystem, to run it 
+'''
+if __name__ == '__main__':
+    recommendation()
+'''
+
+* svd_cf(Yingcai Jia):implement of funk SVD, return a array the rating for each of the moview, 
+in 984*1682 shape. each element represent the rating for a movie
+* neurlnet(Yingcai Jia / Zeji Hui):the MLP Movie Recommendation with  collaborative filtering return a array the rating for each of the moview, 
+in 984*1682 shape. each element represent the rating for a movie. with MLP  structures, the hyperparameters been well toned
+* data_reader(Yingcai Jia / Zeji Hui):load the data and eaxtract the data we want and from the datast and transform into array type
+* visual(Zeji Hui): visualized 100 random movies, try to find the relationship 
 
 
 
