@@ -1,6 +1,11 @@
 import pandas as pd
 import numpy as np
 
+
+"""
+this module is to extract the data from the datast and transform into array type
+"""
+
 def read_user():
     user_columns = ['user id', 'age', 'gender', 'occupation', 'zip code']
     users = pd.read_table('ml-100k\\u.user', sep='|', header=None,
