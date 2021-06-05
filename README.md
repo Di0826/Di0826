@@ -32,6 +32,7 @@ in 984*1682 shape. each element represent the rating for a movie
 in 984*1682 shape. each element represent the rating for a movie. with MLP  structures, the hyperparameters been well toned
 * data_reader(Yingcai Jia / Zeji Hui):load the data and eaxtract the data we want and from the datast and transform into array type
 * visual(Zeji Hui): visualized 100 random movies, try to find the relationship 
+* complete report(Zeji Hui/Di Li): complete Introduction, Literature Survey, Problem Statement,Method description by Di Li, complete experiment and conclusion by Zeiji Hui
 
 
 
