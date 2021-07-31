@@ -19,20 +19,9 @@ on the MovieLens-100K dataset using two different methods and compare their perf
 this project implement a practical  movie recommendation software systemfor MovieLens-100k dataset, using collaborative filtering techniques.
 there are 2 methods： “FUNK SVD” and collaborative filtering based deep learning methods. 
 
-**files**
-* main(Yingcai Jia / Zeji Hui): run this to test the Movie RecommendationSystem, to run it 
-'''
-if __name__ == '__main__':
-    recommendation()
-'''
 
-* svd_cf(Yingcai Jia):implement of funk SVD, return a array the rating for each of the moview, 
-in 984*1682 shape. each element represent the rating for a movie
-* neurlnet(Yingcai Jia / Zeji Hui):the MLP Movie Recommendation with  collaborative filtering return a array the rating for each of the moview, 
-in 984*1682 shape. each element represent the rating for a movie. with MLP  structures, the hyperparameters been well toned
-* data_reader(Yingcai Jia / Zeji Hui):load the data and eaxtract the data we want and from the datast and transform into array type
-* visual(Zeji Hui): visualized 100 random movies, try to find the relationship 
-* complete report(Zeji Hui/Di Li): complete Introduction, Literature Survey, Problem Statement,Method description by Di Li, complete experiment and conclusion by Zeiji Hui
+
+
 
 
 
